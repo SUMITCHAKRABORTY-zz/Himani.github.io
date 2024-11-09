@@ -284,30 +284,22 @@ strong {
 		});
 	</script>
 
-<script>
-  // Wait for the DOM to load
-  window.onload = function() {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const audioElement = new Audio('images/song.mp3');
-    
-    // Create a source node from the audio element
-    const audioSource = audioContext.createMediaElementSource(audioElement);
-    
-    // Connect the source to the destination (the speakers or headphones)
-    audioSource.connect(audioContext.destination);
-    
-    // Muting the audio initially to bypass autoplay restrictions
-    audioElement.muted = true;
-    
-    // Start playing the audio
-    audioElement.play().then(() => {
-      // Once the audio starts, unmute it
-      audioElement.muted = false;
-    }).catch(error => {
-      console.error("Autoplay failed:", error);
-    });
-  };
-</script>
+
+		    <script>
+        let audio = new Audio("images/audio.mp3");
+        audio.muted = true;  // Start muted
+
+        // Try to autoplay after loading
+        window.onload = function() {
+            audio.play();
+        };
+
+        // Unmute the audio after user interaction
+        document.body.addEventListener('click', function() {
+            audio.muted = false;
+            audio.play();  // Resume playing after unmuting
+        });
+    </script>
 
 	</body>
 </html>

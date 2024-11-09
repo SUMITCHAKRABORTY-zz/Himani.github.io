@@ -8,9 +8,9 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Wedding &mdash; 100% Free Fully Responsive HTML5 Template by FREEHTML5.co</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Free HTML5 Template by FREEHTML5.CO" />
-	<meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
-	<meta name="author" content="FREEHTML5.CO" />
+	<meta name="description" />
+	<meta name="keywords"  />
+	<meta name="author" content="Sumit" />
 
 
 	<meta property="og:title" content=""/>
@@ -102,10 +102,10 @@ strong {
 	</head>
 	<body>
 
-		<audio id="background-music" loop>
+		<audio id="background-music" autoplay loop>
 			<source src="images/song.mp3" type="audio/mpeg">
 			Your browser does not support the audio element.
-		  </audio>
+		</audio>
 		
 	<div class="fh5co-loader"></div>
 	
@@ -276,23 +276,24 @@ strong {
 	</script>
 
 <script>
-    // Get the audio element
     const music = document.getElementById("background-music");
 
-    // Function to play the audio
-    const playMusic = () => {
-      music.play().catch(error => {
-        console.error("Playback failed:", error);
-      });
-      // Remove event listeners after the audio starts playing
-      document.removeEventListener("click", playMusic);
-      document.removeEventListener("scroll", playMusic);
-    };
+    // Attempt to play the audio on page load
+    music.play().catch(error => {
+        console.error("Playback failed. Waiting for user interaction...", error);
 
-    // Listen for first user interaction
-    document.addEventListener("click", playMusic);
-    document.addEventListener("scroll", playMusic);
-  </script>
+        // Add event listeners for user interactions
+        const enableAudio = () => {
+            music.play().catch(err => console.error("Playback failed on interaction:", err));
+            document.removeEventListener("click", enableAudio);
+            document.removeEventListener("touchstart", enableAudio);
+        };
+
+        // Listen for user interactions
+        document.addEventListener("click", enableAudio);
+        document.addEventListener("touchstart", enableAudio);
+    });
+</script>
 
 	</body>
 </html>

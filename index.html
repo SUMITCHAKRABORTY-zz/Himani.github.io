@@ -101,10 +101,10 @@ strong {
 	</head>
 	<body>
 
-		<audio id="background-music" loop>
-			<source src="images/song.mp3" type="audio/mpeg">
-			Your browser does not support the audio element.
-		</audio>
+		<audio id="background-music" autoplay loop muted>
+    <source src="images/song.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
 		
 	<div class="fh5co-loader"></div>
 	
@@ -277,28 +277,25 @@ strong {
 <script>
     const music = document.getElementById("background-music");
 
-    // Try to play the audio on page load
+    // Try to play the muted audio first
     const tryPlayMusic = () => {
         music.play().catch(error => {
             console.error("Playback failed. Waiting for user interaction...", error);
 
-            // Wait for user interaction to start the music
+            // Wait for user interaction to unmute and play
             const enableAudio = () => {
+                music.muted = false; // Unmute the audio
                 music.play().catch(err => console.error("Playback failed on interaction:", err));
                 // Remove event listeners after successful play
                 document.removeEventListener("click", enableAudio);
                 document.removeEventListener("touchstart", enableAudio);
             };
 
-            // Listen for user interaction
+            // Listen for user interaction to unmute and start playback
             document.addEventListener("click", enableAudio);
             document.addEventListener("touchstart", enableAudio);
         });
     };
-
-    // Try playing the music immediately
-    tryPlayMusic();
-</script>
 
 
 	</body>

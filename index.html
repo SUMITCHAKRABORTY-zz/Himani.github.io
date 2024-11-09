@@ -280,37 +280,30 @@ strong {
 		});
 	</script>
 
-		<script>
-			const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-const audioElement = new Audio('images/song.mp3');
-const audioSource = audioContext.createMediaElementSource(audioElement);
-audioSource.connect(audioContext.destination);
-audioElement.play();
-		</script>
-
 <script>
-    const music = document.getElementById("background-music");
-
-    // Try to play the muted audio first
-    const tryPlayMusic = () => {
-        music.play().catch(error => {
-            console.error("Playback failed. Waiting for user interaction...", error);
-
-            // Wait for user interaction to unmute and play
-            const enableAudio = () => {
-                music.muted = false; // Unmute the audio
-                music.play().catch(err => console.error("Playback failed on interaction:", err));
-                // Remove event listeners after successful play
-                document.removeEventListener("click", enableAudio);
-                document.removeEventListener("touchstart", enableAudio);
-            };
-
-            // Listen for user interaction to unmute and start playback
-            document.addEventListener("click", enableAudio);
-            document.addEventListener("touchstart", enableAudio);
-        });
-    };
-
+  // Wait for the DOM to load
+  window.onload = function() {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const audioElement = new Audio('images/song.mp3');
+    
+    // Create a source node from the audio element
+    const audioSource = audioContext.createMediaElementSource(audioElement);
+    
+    // Connect the source to the destination (the speakers or headphones)
+    audioSource.connect(audioContext.destination);
+    
+    // Muting the audio initially to bypass autoplay restrictions
+    audioElement.muted = true;
+    
+    // Start playing the audio
+    audioElement.play().then(() => {
+      // Once the audio starts, unmute it
+      audioElement.muted = false;
+    }).catch(error => {
+      console.error("Autoplay failed:", error);
+    });
+  };
+</script>
 
 	</body>
 </html>
